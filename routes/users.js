@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './uploads' });
+var User = require('../models/user');
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -14,10 +15,13 @@ router.get('/register', function(req, res, next) {
 router.post('/register', upload.single('profileimage'), function(req, res, next){
     var userdata = {
         name: req.body.name,
+        username: req.body.username,
         email: req.body.email,
-        password: req.body.password,  //DANGEROUS!!!
-        password2: req.body.password2 //DANGEROUS!!!
+        password: req.body.password,  //!!!
+        password2: req.body.password2 //!!!
     };
+
+    //console.log(req.file);
 
     if(req.file){
         console.log('Uploading file [...]');
@@ -34,7 +38,7 @@ router.post('/register', upload.single('profileimage'), function(req, res, next)
     req.checkBody('password', 'Password field is required').notEmpty();
     req.checkBody('password2', 'Passwords not match').equals(userdata.password);
 
-    //Check rrrors
+    //Check errors
     var errors = req.validationErrors();
 
     if(errors){
@@ -43,7 +47,19 @@ router.post('/register', upload.single('profileimage'), function(req, res, next)
             errors: errors
         });
     } else {
-        console.log('No errors');
+        var newUser = new User({
+            name: userdata.name,
+            email: userdata.email,
+            password: userdata.password,
+            username: userdata.username,
+            profileimage: profileimage
+        });
+        User.createUser(newUser, function(error, user){
+            if(error) throw error;
+            console.log(user);
+        });
+        res.location('/');
+        res.redirect('/');
     }
 });
 
