@@ -1,4 +1,4 @@
-var mongoose = require('../models/db'); //db holds everything about mongodb.
+var mongoose = require('../models/db'); //db holds everything about your mongo connection.
 /*
  db.js =>
     var mongoose = require('mongoose');
