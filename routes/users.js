@@ -17,8 +17,8 @@ router.post('/register', upload.single('profileimage'), function(req, res, next)
         name: req.body.name,
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password,  //!!!
-        password2: req.body.password2 //!!!
+        password: req.body.password,
+        password2: req.body.password2
     };
 
     //console.log(req.file);

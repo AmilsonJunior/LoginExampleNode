@@ -11,9 +11,7 @@ var localStrategy = require('passport-local').Strategy;
 
 var flash = require('connect-flash');
 var mongo = require('mongodb');
-var mongoose = require('mongoose');
-var db = mongoose.connection;
-
+var bcrypt = require('bcryptjs');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
