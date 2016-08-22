@@ -100,4 +100,12 @@ router.get('/login', function(req, res, next) {
   res.render('login', {title: 'Login'});
 });
 
+router.get('/logout', function(req, res){
+    console.log('trying to logged out!!!!!!!!!!!!!!!!');
+    req.logout();
+    console.log('logged out!!!!!!!!!!!!!!!!');
+    req.flash('success', 'You are successfully logged out');
+    res.redirect('/users/login');
+});
+
 module.exports = router;

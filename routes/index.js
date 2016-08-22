@@ -1,7 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+var ensureAuthenticated = function(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    };
+    res.redirect('/users/login');
+};
+
+router.get('/', ensureAuthenticated, function(req, res, next) {
   res.render('index', { title: 'Home' });
 });
 

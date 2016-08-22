@@ -13,15 +13,20 @@ html
        span.icon-bar
        span.icon-bar
        span.icon-bar
-      a.navbar-brand(href="/") Project name
+      a.navbar-brand(href="/") LoginExampleNode
      .navbar-collapse.collapse
       ul.nav.navbar-nav
-       li(class=(title == "Home" ? "active" : ""))
-        a(href="/") Home
-       li(class=(title == "Register" ? "active" : ""))
-        a(href="/users/register") Register
-       li(class=(title == "Login" ? "active" : ""))
-        a(href="/users/login") Login
+       if user
+        li(class=(title == "Members Area" ? "active" : ""))
+         a(href="/") Members Area
+       if !user
+        li(class=(title == "Register" ? "active" : ""))
+         a(href="/users/register") Register
+        li(class=(title == "Login" ? "active" : ""))
+         a(href="/users/login") Login
+       if user
+        li
+         a(href="/users/logout") Logout
     .container
      != messages()
      block content
