@@ -1,4 +1,11 @@
-var mongoose = require('../models/db');
+var mongoose = require('../models/db'); //db holds everything about mongodb.
+/*
+ db.js =>
+    var mongoose = require('mongoose');
+    mongoose.connect('YOUR_MONGO_CONNECTION');
+    var db = mongoose.connection;
+    module.exports = mongoose;
+*/
 
 var UserSchema = mongoose.Schema({
     name: {
