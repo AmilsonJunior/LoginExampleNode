@@ -3,6 +3,8 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './uploads' });
 var User = require('../models/user');
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
 
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -47,7 +49,7 @@ router.post('/register', upload.single('profileimage'), function(req, res, next)
             errors: errors
         });
     } else {
-        var newUser = new User({
+        var newUser = new User.userModel({
             name: userdata.name,
             email: userdata.email,
             password: userdata.password,
@@ -61,6 +63,37 @@ router.post('/register', upload.single('profileimage'), function(req, res, next)
         res.location('/');
         res.redirect('/');
     }
+});
+
+router.post('/login',
+  passport.authenticate('local', {failureRedirect: '/users/login', failureFlash: 'Invalid username or password'}),
+  function(req, res) {
+    req.flash('success', 'You are now logged in.');
+    res.redirect('/');
+});
+
+passport.use(new localStrategy(function(username, password, done){
+    User.getUserByUsername(username, function(err, user){
+        if(err) throw err;
+        if(!user) return done(null, false, {message:'Unknow user'});
+        User.comparePassword(password, user.password, function(err, isMatch){
+            if(err)
+                throw err;
+            if(isMatch)
+                return done(null, user);
+            else
+                return done(null, false, {message: 'Invalid password'});
+        })
+    });
+}));
+
+passport.serializeUser(function(user, done){
+    done(null, user.id);
+});
+passport.deserializeUser(function(id, done){
+    User.getUserById(id, function(err, user){
+        done(err, user);
+    });
 });
 
 router.get('/login', function(req, res, next) {

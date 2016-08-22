@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 var expressValidator = require('express-validator');
-var localStrategy = require('passport-local').Strategy;
 
 var flash = require('connect-flash');
 var mongo = require('mongodb');

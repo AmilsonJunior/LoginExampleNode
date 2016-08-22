@@ -23,6 +23,7 @@ html
        li(class=(title == "Login" ? "active" : ""))
         a(href="/users/login") Login
     .container
+     != messages()
      block content
 
     script(src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js")
